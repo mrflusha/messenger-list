@@ -1,0 +1,44 @@
+@startuml
+actor "Система" as sys
+actor "Пользователь" as user
+
+left to right direction
+
+rectangle "Разработка пользовательского приложения для программного подбора мессенджера"{
+UC_sys_output as (Вывод списка информации\n о мессенджерах по функциям\n необходимым пользователю)
+UC_sys_output_title as (Вывод информации исходя\n из названия мессенджера)
+UC_sys_add as (Производит добавление мессенджера)
+UC_sys_del as (Производит удаление мессенджера)
+UC_sys_filt as (Фильтрация данных)
+UC_sys_action as (Отмена действия)
+
+UC_user_add as (Добавление мессенджера)
+UC_user_del as (Удаление мессенджера)
+UC_user_sort as (Выбор по функциональности)
+UC_user_output as (Выбор по названию)
+
+UC_user_action as (Изменение информации в субд)
+UC_user_get as (Получение информации в удобном виде)
+
+
+
+}
+
+sys --> UC_sys_del
+sys --> UC_sys_add
+sys --> UC_sys_output
+sys --> UC_sys_output_title
+UC_sys_del <.. UC_sys_action
+UC_sys_add <.. UC_sys_action
+UC_sys_output <.. UC_sys_filt
+
+
+user --> UC_user_add 
+user --> UC_user_del 
+user --> UC_user_sort 
+user --> UC_user_outpsut
+UC_user_add ..> UC_user_action
+UC_user_del ..> UC_user_action
+UC_user_sort <.. UC_user_get
+UC_user_output<.. UC_user_get
+@enduml

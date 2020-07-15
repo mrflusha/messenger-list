@@ -1,0 +1,54 @@
+
+
+
+
+@startuml
+title Диаграмма профилей программного проекта
+left to right direction
+!include <tupadr3/common>
+!include <tupadr3/font-awesome/server>
+!include <tupadr3/font-awesome/database>
+
+
+
+
+
+
+
+package Application <<$app{scale=2}>> {
+}
+
+database Database <<$app>> {
+
+
+package MessengerParameters <<$db{scale=2}>> {
+FA_DATABASE(db1,,database,white) #RoyalBlue
+rectangle Support_VoiceMesseges as "Поддержка\n голосовых сообщений"
+rectangle Support_GroupVoiceCalls as "Наличие групповых голосовых чатов"
+rectangle Support_VideoCalls as "Наличие видеозвонков"
+rectangle OS as "Потдерживаемые\n ОС"
+rectangle Max_FileSize as "Ограничение максимального размера загружаемого файла"
+rectangle Msg_Auditory as "Аудитория"
+rectangle Messenger_name as "Название Мессенджера"
+}
+
+package MessengerConstraints <<$db{scale=2}>> {
+FA_DATABASE(db2,_,database) #Red
+rectangle YesNoUnknown as "<U+0020>Да\n--\nНет\n--\nНеизвестно"
+note right of Messenger_name : Уникальное поле
+note right of Msg_Auditory: 0 .. 9999999999
+note right of Max_FileSize : 1mb .. 1.5gb
+rectangle Op_sys as "Android\n--\niOs\n--\n BlackBerry \n--\n Windows/Linux/Mac..."
+}
+
+
+
+
+Support_VoiceMesseges "1" --> "3" YesNoUnknown
+Support_GroupVoiceCalls "1" --> "3" YesNoUnknown
+Support_VideoCalls "1" --> "3" YesNoUnknown
+
+OS "1" --> "3" Op_sys
+
+Application --> Database : <<call>>
+@enduml
