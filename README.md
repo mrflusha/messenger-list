@@ -10,10 +10,10 @@
 	<p>in connector strint your values</p>
 	<p>Need mysql server(or local)</p>
 	<p>script base.sql with phpMyAdmin: 
-	<ol>
+	<ul>
 	<li>click SQL</li>
 	<li>copy/paste script</li>
-	</ol>
+	</ul>
 	</p>
 </div>
 
