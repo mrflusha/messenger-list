@@ -11,7 +11,7 @@
 	
 	<b>click SQL</b>
 	<b>copy/paste script</b>
-	
+	<a href="https://mrflusha.github.io/messenger-list/">click</a>
 	</p>
 </div>
 
