@@ -11,7 +11,6 @@
 	
 <b>click SQL</b>
 <b>copy/paste script<br></b>
-<a href="https://mrflusha.github.io/messenger-list/">click</a>
 	
 
 
@@ -21,3 +20,6 @@
 	<quote>python3 main.py</quote>
 	<input type = "color">
 </div>
+
+
+<a href = "https://mrflusha.github.io/messenger-list/">OUCH</a>
