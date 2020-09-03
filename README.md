@@ -10,7 +10,7 @@
 <p>script base.sql with phpMyAdmin: 
 	
 <b>click SQL</b>
-<b>copy/paste script</b>
+<b>copy/paste script<br></b>
 <a href="https://mrflusha.github.io/messenger-list/">click</a>
 	
 
