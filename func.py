@@ -1,4 +1,5 @@
 import connectdb
+import info_box
 
 
 def yesorno(param,item):
@@ -7,8 +8,8 @@ def yesorno(param,item):
 
 
 def getCombo(dbgetlist):       
-            for i in range(len(connectdb.array)):
-                dbgetlist.addItem(connectdb.array[i])
+            for i in range(len(info_box.array)):
+                dbgetlist.addItem(info_box.array[i])
 
 
 def getCombolist(box_get_list,list_check):
@@ -18,8 +19,4 @@ def getCombolist(box_get_list,list_check):
 def max_upload(db_where, db_array):
 	db_string = "SELECT " + connectdb.db_upload_max + " FROM "+ connectdb.db_messengers_forQ + " WHERE name = '"+ db_where+"' LIMIT 0,30"
 
-	print(db_string)
-                                        
-	print("connect")
-    
 

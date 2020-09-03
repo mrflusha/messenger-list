@@ -2,8 +2,23 @@ import sys
 import info_box
 import func
 from PyQt5.QtWidgets import QMainWindow, QApplication, QPushButton, QWidget, QComboBox, QAction, QTabWidget, QVBoxLayout, QInputDialog, QLabel, QLineEdit, QMessageBox
-from PyQt5.QtGui import QIcon
+from PyQt5.QtGui import QIcon, QColor
 from PyQt5.QtCore import pyqtSlot
+from time import sleep as freeze
+
+
+
+class Colour:
+   PURPLE = '\033[95m'
+   CYAN = '\033[96m'
+   DARKCYAN = '\033[36m'
+   BLUE = '\033[94m'
+   GREEN = '\033[92m'
+   YELLOW = '\033[93m'
+   RED = '\033[91m'
+   BOLD = '\033[1m'
+   UNDERLINE = '\033[4m'
+   END = '\033[0m'
 
 class App(QMainWindow):
 
@@ -11,16 +26,19 @@ class App(QMainWindow):
     def __init__(self):
         super().__init__()
         self.title = 'Messenger list'
-        self.left = 0
-        self.top = 0
+        self.left = 300
+        self.top = 15
         self.width = 600
-        self.height = 400
+        self.height = 680
         self.setWindowTitle(self.title)
         self.setGeometry(self.left, self.top, self.width, self.height)
-        self.statusBar().showMessage('Сrash 2020.')
+        self.statusBar().showMessage('2020.')
 
-        
-        self.table_widget = MyTableWidget(self)
+        try:
+            self.table_widget = MyTableWidget(self)
+        except:
+            QMessageBox.warning(self, 'Connection status',"ERROR:\nBad connection\n", QMessageBox.Ok)
+            sys.exit()
         self.setCentralWidget(self.table_widget)
         
         self.show()
@@ -31,13 +49,14 @@ class MyTableWidget(QWidget):
         super(QWidget, self).__init__(parent)
         self.layout = QVBoxLayout(self)
         
+    
         # Initialize tab screen
         self.tabs = QTabWidget()
         self.tab1 = QWidget()
         self.tab2 = QWidget()
         self.tab3 = QWidget()
         self.tab4 = QWidget()
-        self.tabs.resize(100,50)
+        self.tabs.resize(50,20)
         
         # Add tabs
         self.tabs.addTab(self.tab1,"Вывод из базы")
@@ -54,6 +73,7 @@ class MyTableWidget(QWidget):
         self.dblist.setObjectName("dblist")
 
         func.getCombolist(self.dblist, func.connectdb.array)
+
         self.pushEdit = QPushButton("Вывод из базы")
         self.tab1.layout.addWidget(self.dblist)
         self.tab1.layout.addWidget(self.pushEdit)
@@ -75,31 +95,27 @@ class MyTableWidget(QWidget):
         func.getCombolist(self.addSupportVM , func.connectdb.oneOrZero)
         self.addSupportGC = QComboBox()
         func.getCombolist(self.addSupportGC , func.connectdb.oneOrZero)
+
+
         self.addMaxFileSize = QLabel()
         self.addVC = QLabel()
         self.addOS = QLabel()
         self.addVM = QLabel()
         self.addGC = QLabel()
         self.textbox = QLineEdit(self)
-        self.textbox_title = QLineEdit(self)
 
 
-        
-        #func.yesorno(self.addSupportVC, "YES")
 
 
         self.addMaxFileSize.setText("Максимальный размер файла:")
         self.addVC.setText("Видеовызов:")
-        print(self.addSupportVC)
         self.addOS.setText("Поддерживаемые ОС:")
-        self.addVM.setText("Голосовые сообжения:")
+        self.addVM.setText("Голосовые сообщения:")
         self.addGC.setText("Поддержка групповых чатов:")
         self.pushAdd = QPushButton("Добавить в базу")
 
         self.tab2.layout.addWidget(self.title)
         self.tab2.layout.addWidget(self.textbox)
-        self.tab2.layout.addWidget(self.title_manuf)
-        self.tab2.layout.addWidget(self.textbox_title)
         self.tab2.layout.addWidget(self.addVC)
         self.tab2.layout.addWidget(self.addSupportVC)
         self.tab2.layout.addWidget(self.addGC)
@@ -112,7 +128,7 @@ class MyTableWidget(QWidget):
         self.tab2.layout.addWidget(self.addMaxSize)
         self.tab2.layout.addWidget(self.pushAdd)
         self.tab2.setLayout(self.tab2.layout)
-        #Button call
+        #Button func 
         self.pushAdd.clicked.connect(self.add_click)
 
 
@@ -123,7 +139,7 @@ class MyTableWidget(QWidget):
 
         self.deletebox=QComboBox()
 
-        func.getCombo(self.deletebox)
+        self.deletebox.addItems(func.connectdb.array)
 
 
 
@@ -160,28 +176,28 @@ class MyTableWidget(QWidget):
 
         #4th tab:
         self.tab4.layout = QVBoxLayout(self)
-        self.title = QLabel("Выбор по функциональности:\n")
+        self.title = QLabel("Выбор по функциональности:")
         self.filterFileSize = QComboBox()
-        func.getCombolist(self.filterFileSize , func.connectdb.maxsize)
+        func.getCombolist(self.filterFileSize , func.connectdb.maxsize[0:-2])
         self.filterSupportVC = QComboBox()
-        func.getCombolist(self.filterSupportVC , func.connectdb.oneOrZero)
+        func.getCombolist(self.filterSupportVC , func.connectdb.oneOrZero[0:2])
         self.filterSupOS = QComboBox()
-        func.getCombolist(self.filterSupOS , func.connectdb.operatingSyS)
+        func.getCombolist(self.filterSupOS , func.connectdb.operatingSyS[0:1])
         self.filterSupVM = QComboBox()
-        func.getCombolist(self.filterSupVM , func.connectdb.oneOrZero)
+        func.getCombolist(self.filterSupVM , func.connectdb.oneOrZero[0:2])
         self.filterSupGC = QComboBox()
-        func.getCombolist(self.filterSupGC , func.connectdb.oneOrZero)
+        func.getCombolist(self.filterSupGC , func.connectdb.oneOrZero[0:2])
         self.filterMaxFileSize = QLabel()
         self.filterVC = QLabel()
         self.filterOS = QLabel()
         self.filterVM = QLabel()
         self.filterGC = QLabel()
+        
 
 
 
         self.filterMaxFileSize.setText("Максимальный размер файла:")
         self.filterVC.setText("Видеовызов:")
-        print(self.filterSupportVC)
         self.filterOS.setText("Поддерживаемые ОС:")
         self.filterVM.setText("Голосовые сообщения:")
         self.filterGC.setText("Поддержка групповых чатов:")
@@ -189,8 +205,6 @@ class MyTableWidget(QWidget):
 
 
 
-        self.tab4.layout.addWidget(self.title)
-#        self.tab4.layout.addWidget(self.textbox) 
         self.tab4.layout.addWidget(self.filterVC)
         self.tab4.layout.addWidget(self.filterSupportVC)
         self.tab4.layout.addWidget(self.filterGC)
@@ -204,98 +218,156 @@ class MyTableWidget(QWidget):
         self.tab4.layout.addWidget(self.execDB)
         self.tab4.setLayout(self.tab4.layout)
 
+        self.execDB.clicked.connect(self.sort_click)
+
 
 
 
 
         
     @pyqtSlot()
-    def delete_click(self):
+    def sort_click(self):
+        max_file_size = str(self.filterFileSize.currentIndex())
+        op_system = str(self.filterSupOS.currentIndex())
+        voice_messeges = str(self.filterSupVM.currentIndex())
+        group_chat = str(self.filterSupGC.currentIndex())
+        video_call = str(self.filterSupportVC.currentIndex())
+        voice_messeges_str = "\n\t"
+        group_chat_str = "\n\t"
+        video_call_str = "\n\t"
+        max_file_size_str = "\n\t"
+        sort_arr = list()
+
+        info_box.sort_func(voice_messeges,op_system,group_chat,video_call,max_file_size,sort_arr)
+
+        voice_messeges_str = ", ".join(sort_arr[0])
+        group_chat_str = ", ".join(sort_arr[1])
+        video_call_str = ", ".join(sort_arr[2])
+        max_file_size_str = ", ".join(sort_arr[3])
+
+        sort_arr = list()
+        
 
 
 
+        sort_str = "Мессенджеры в которых:\n"+\
+        func.connectdb.oneOrZero[int(voice_messeges)]+" поддержки голосовых сообщений в мессенджерах:\n\n"+voice_messeges_str+"\n\n"+\
+        func.connectdb.oneOrZero[int(video_call)]+" поддержки видеовызова в мессенджерах:\n\n"+video_call_str+"\n\n"+\
+        func.connectdb.oneOrZero[int(group_chat)]+" групповых чатов в мессенджерах:\n\n"+group_chat_str+"\n\n"+\
+        "Мессенджеры которые поддерживают загрузку файлов размером "+func.connectdb.maxsize[int(max_file_size)]+":\n\n"+\
+        max_file_size_str
 
-
-        print(self.deletebox.currentIndex())
-        buttonreply = QMessageBox.question(self, 'Уведомление', "Вы действительно хотите удалить из базы?", QMessageBox.Yes | QMessageBox.Abort)
-        if buttonreply == QMessageBox.Yes:
-            delete_title = self.deletebox.currentText()
-            delete_id = self.deletebox.currentIndex()
-            print (delete_title)
-
-            func.connectdb.del_db("all_messengers",delete_title)
-
-            print("YES")
-            QMessageBox.information(self, "Уведомление", str(delete_title)+"\nУдалён из базы данных" , QMessageBox.Ok)
-        elif buttonreply == QMessageBox.Abort:
-            QMessageBox.warning(self, "Cancel", "Действие отменено", QMessageBox.Abort)   
-    def add_click(self):
-        textboxValue = self.textbox.text()
-        self.textbox.setText("BULL") 
-        index_arr = (textboxValue, self.textbox_title.text(), self.addMaxSize.currentIndex(),self.addSupportOS.currentIndex(),self.addSupportVM.currentIndex(),self.addSupportGC.currentIndex(),self.addSupportVC.currentIndex())
-        index_str = ""
 
         
 
 
 
+        QMessageBox.information(self, "Уведомление", sort_str, QMessageBox.Ok)
+
+
+
+    def delete_click(self):
+
+        buttonreply = QMessageBox.question(self, 'Уведомление', "Вы действительно хотите удалить из базы?", QMessageBox.Yes | QMessageBox.Abort)
+        if buttonreply == QMessageBox.Yes:
+            self.dblist.clear()
+            func.getCombolist(self.dblist, info_box.array)
+
+            delete_title = self.deletebox.currentText()
+            delete_id = self.deletebox.currentIndex()
+
+            func.connectdb.del_db("all_messengers",delete_title)
+
+            freeze(2)
+            arr = []
+            func.connectdb.array = info_box.ex_db(info_box.refresh_select,arr)
+            self.dblist.clear()
+            self.deletebox.clear()
+            self.dblist.addItems(func.connectdb.array)
+            self.deletebox.addItems(func.connectdb.array)
+
+
+            QMessageBox.information(self, "Уведомление", str(delete_title) + "\nУдалён из базы данных" , QMessageBox.Ok)
+
+        elif buttonreply == QMessageBox.Abort:
+            QMessageBox.warning(self, "Cancel", "Действие отменено", QMessageBox.Abort)   
+    def add_click(self):
+        textboxValue = self.textbox.text()
+        index_arr = (textboxValue, "0", self.addMaxSize.currentIndex(),\
+            self.addSupportOS.currentIndex(),\
+            self.addSupportVM.currentIndex(),\
+            self.addSupportGC.currentIndex(),\
+            self.addSupportVC.currentIndex())
+        index_str = ""
+        
+       
+
+
         buttonreply = QMessageBox.question(self, 'Уведомление', "Вы действительно хотите добавить в базу?", QMessageBox.Yes | QMessageBox.Abort)
         if buttonreply == QMessageBox.Yes:
             info_box.insert_db(str(index_arr),index_arr[1])
-            print(self.addMaxSize.currentIndex())
             add_index=[self.addMaxSize.currentIndex(),self.addSupportOS.currentIndex()]
-            print (add_index)
             io = self.addSupportOS.currentText()
 
-            print("YES")
+            freeze(1)
+
+            arr = []
+
+            func.connectdb.array = info_box.ex_db(info_box.refresh_select,arr)
+
             self.dblist.clear()
-            func.getCombolist(self.dblist, func.connectdb.array)
-            QMessageBox.information(self, "Уведомление", str(io)+"\nИндекс" , QMessageBox.Ok)
+            self.deletebox.clear()
+            self.dblist.addItems(func.connectdb.array)
+            self.deletebox.addItems(func.connectdb.array)
+
+
+            QMessageBox.information(self, "Уведомление", textboxValue + "\nДобавлен" , QMessageBox.Ok)
+
         elif buttonreply == QMessageBox.Abort:
             QMessageBox.warning(self, "Cancel", "Действие отменено", QMessageBox.Abort)
     def import_click(self):
 
-#Index of messenger title
+
         import_index = self.dblist.currentIndex()
         import_name = self.dblist.currentText()
         bd_array =[]
 
         info_box.max_upload(import_name,bd_array)
         
-      
 
 
-        import_up = func.connectdb.maxsize[bd_array[0][0]]
+
+
+        #ITS OK
+
+
+
+        import_up =  func.connectdb.maxsize[bd_array[0][0]]
         import_gv = func.connectdb.oneOrZero[bd_array[0][1]]
         import_vm = func.connectdb.oneOrZero[bd_array[0][2]]
         import_vv = func.connectdb.oneOrZero[bd_array[0][3]]
         import_os = func.connectdb.operatingSyS[bd_array[0][4]]
         import_manufact = func.connectdb.manufact[bd_array[0][5]]
-        print(import_up)
-        print(import_gv)
-        print(import_vm)
-        print(import_vv)
-        
 
 
 
-#Get import string
-        #import_manufact = func.connectdb.manufact[import_index]
-        #import_str = str("\nПроизводитель: " + import_name + "\nМаксимальный размер файла: " )
 
 
 
 
         
-        #print (import_index,import_name,import_manufact,"\n", import_str)
+
         
+       
+    
+        buttonreply = QMessageBox.information(self, "Info about " + import_name,\
+            "Название:\t\t\t" + import_name + \
+            "\nМаксимальный размер файла: \t" + import_up + \
+            "\nПоддержка групповых чатов:\t" + import_gv + \
+            "\nПоддержка голосовых сообщений:\t" + import_vm + \
+            "\nПоддержка Видеовызова:\t" + import_vv +\
+            "\nПоддерживаемы ОС: \t\t" + import_os ,QMessageBox.Ok)
 
-#        zaglushka = str(func.connectdb.result[0])+"\n"+str(func.connectdb.manufact[0])+"\n"+str(func.connectdb.oneOrZero[0])
-
-        buttonreply = QMessageBox.information(self, "Info about "+ import_name,"Название:\t\t\t"+ import_name + "\nПроизводитель: \t\t" +import_manufact+ "\nМаксимальный размер файла: \t" + import_up +"\nПоддержка групповых чатов:\t"+import_gv+"\nПоддержка групповых сообщений:\t"+import_vm+"\nПоддержка Видеовызова:\t"+import_vv+"\nПоддерживаемы ОС: \t\t"+import_os , QMessageBox.Ok)
-#this func may be will need
-        #for currentQTableWidgetItem in self.tableWidget.selectedItems():
-            #print(currentQTableWidgetItem.row(), currentQTableWidgetItem.column(), currentQTableWidgetItem.text())
 
 
 
