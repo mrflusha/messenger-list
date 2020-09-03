@@ -1,5 +1,5 @@
-<div>
-	<p>for work application</p>
+
+		<p>for work application</p>
 	
 		<p>install packeges on Ubuntu/Linux Mint/LMDE4 and ....:</p>
 		<quote>Terminal</quote>
@@ -13,7 +13,7 @@
 		<b>copy/paste script</b>
 		<a href="https://mrflusha.github.io/messenger-list/">click</a>
 	
-</div>
+
 
 
 <div>
