@@ -3,14 +3,14 @@
 	<p>
 		<p>install packeges on Ubuntu/Linux Mint/LMDE4 and ....:</p>
 		<quote>Terminal</quote>
-		<blockquote>bash install.bash</blockquote>
+		<blockquote><b>bash install.bash</b></blockquote>
 
 	<p>in connector strint your values</p>
 	<p>Need mysql server(or local)</p>
 	<p>script base.sql with phpMyAdmin: 
 	
-	<li>click SQL</li>
-	<li>copy/paste script</li>
+	<b>click SQL</b>
+	<b>copy/paste script</b>
 	
 	</p>
 </div>
